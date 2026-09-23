@@ -863,6 +863,16 @@ function wtFmtLabel(ms){
   const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60;
   return (h>0?h+'h ':'')+m+'m '+s+'s';
 }
+/* Gegenstück zu wtFmtLabel: wandelt "1h 5m 20s" o.ä. zurück in Sekunden */
+function parseTimeLabel(s){
+  if(!s)return null;
+  let t=0;
+  const h=s.match(/(\d+)h/),m=s.match(/(\d+)m/),sec=s.match(/(\d+)s/);
+  if(h)t+=3600*parseInt(h[1],10);
+  if(m)t+=60*parseInt(m[1],10);
+  if(sec)t+=parseInt(sec[1],10);
+  return t||null;
+}
 function wtRenderBar(di,w){
   const tkey=wtKey(currentBlock,di,w);
   const savedT=workoutTimes[tkey];
