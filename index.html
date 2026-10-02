@@ -364,6 +364,9 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:in
 .steps-overlay,.steps-modal{transition:none !important;animation:none !important}
 [style*="rgba(255,255,255,.5)"],[style*="rgba(255,255,255,.4)"],[style*="rgba(255,255,255,.35)"]{color:var(--text2) !important}
 .card [style*="white-space:nowrap"]{white-space:normal !important}
+/* Fixierte Wochen-Tabs: bündig an der Oberkante, nichts scheint darüber durch */
+#week-block-tabs{top:env(safe-area-inset-top,0px) !important;z-index:40}
+#week-block-tabs::before{content:'';position:absolute;left:-30px;right:-30px;bottom:100%;height:calc(env(safe-area-inset-top,0px) + 40px);background:var(--bg);pointer-events:none}
 
 </style>
 </head>
