@@ -181,38 +181,6 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 
 @media (prefers-reduced-motion: reduce){
   .brand-logo{animation:none}
 }
-/* ══ Schritte-Challenge (temporär) ══ */
-.steps-fab{
-  position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:400;
-  display:flex;align-items:center;gap:7px;background:var(--bg2);border:1.5px solid var(--border);
-  color:var(--text2);font-family:var(--font-sans);font-size:12px;font-weight:600;
-  padding:9px 14px 9px 11px;border-radius:99px;box-shadow:var(--shadow);cursor:pointer;
-}
-.steps-fab .ico{font-size:15px;line-height:1}
-.steps-fab.done{background:var(--green-light);border-color:rgba(26,138,80,.3);color:var(--green)}
-.steps-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:650;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px);padding:0}
-.steps-overlay.show{display:flex}
-.steps-modal{background:var(--bg2);border-radius:var(--radiusL) var(--radiusL) 0 0;padding:24px 22px calc(24px + env(safe-area-inset-bottom,0px));width:100%;max-width:460px;max-height:82vh;overflow-y:auto}
-.steps-modal h3{font-family:var(--font-serif);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.steps-modal h3 button{color:var(--text3);font-size:22px;background:none;border:none;cursor:pointer;line-height:1}
-.steps-sub{font-size:12px;color:var(--text3);line-height:1.5;margin-bottom:16px}
-.steps-day-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.steps-day-label{width:66px;flex-shrink:0;font-size:12px;font-weight:600;color:var(--text2)}
-.steps-day-row input{flex:1;font-size:16px;padding:10px 12px;text-align:right}
-.steps-bar-wrap{margin:14px 0 18px}
-.steps-bar-bg{height:8px;background:var(--bg4);border-radius:4px;overflow:hidden}
-.steps-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .3s ease}
-.steps-bar-fill.full{background:linear-gradient(90deg,var(--green),var(--green2))}
-.steps-bar-txt{font-size:11px;color:var(--text3);margin-top:5px;text-align:center}
-.steps-hist{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto}
-.steps-hist-row{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;padding:6px 10px;border-radius:8px;background:var(--bg3);cursor:pointer;transition:background .15s}
-.steps-hist-row:hover{background:var(--bg4)}
-.steps-hist-row .d{color:var(--text2)}
-.steps-hist-row .n{font-weight:600;color:var(--text)}
-.steps-hist-row.hit .n{color:var(--green)}
-.steps-hist-empty{font-size:12px;color:var(--text3);padding:8px 2px}
-.steps-end-hint{font-size:10px;color:var(--text3);text-align:center;margin-top:14px}
-@media(max-width:600px){.steps-fab{font-size:13px;padding:10px 16px 10px 12px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
@@ -276,7 +244,7 @@ h1,h2,h3,.tplan-focus,.hdr-stat .v,.ana-hero-num{font-family:var(--font-serif) !
 @media(max-width:600px){#px-banner{height:104px}#px-bubble{left:42%;top:8%;font-size:16px;padding:4px 8px;min-height:26px;max-width:54%}}
 
 /* Karten */
-.card,.tplan-day,.steps-modal,.ana-hero{background:var(--bg2);border:3px solid #000;box-shadow:4px 4px 0 #000;padding:16px}
+.card,.tplan-day,.ana-hero{background:var(--bg2);border:3px solid #000;box-shadow:4px 4px 0 #000;padding:16px}
 .card[style*="--nav-bg"]{background:var(--nav-bg) !important;border:3px solid var(--accent) !important;box-shadow:4px 4px 0 #000 !important}
 .tplan-day.is-today{border-color:var(--accent);box-shadow:4px 4px 0 var(--accent) !important}
 .tplan-day-head{border-bottom:3px dashed var(--border);padding-bottom:8px;margin-bottom:6px}
@@ -323,21 +291,9 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:in
 .footer-tools button:hover{color:#12131f;background:var(--accent)}
 
 /* Fortschrittsbalken in Pixel-Blöcken */
-.steps-bar-bg,.ana-hero-bar-bg{height:18px;background:var(--bg);border:3px solid #000;overflow:hidden}
-.steps-bar-fill,.ana-hero-bar-fill{background:repeating-linear-gradient(90deg,var(--accent) 0 8px,#c95a08 8px 10px) !important}
-.steps-bar-fill.full{background:repeating-linear-gradient(90deg,var(--green) 0 8px,#4aa530 8px 10px) !important}
+.ana-hero-bar-bg{height:18px;background:var(--bg);border:3px solid #000;overflow:hidden}
+.ana-hero-bar-fill{background:repeating-linear-gradient(90deg,var(--accent) 0 8px,#c95a08 8px 10px) !important}
 
-/* Schritte-Challenge */
-.steps-fab{font-family:var(--font-serif) !important;font-size:9px !important;background:var(--accent) !important;color:#12131f !important;border:3px solid #000 !important;box-shadow:4px 4px 0 #000 !important;padding:10px 12px !important}
-.steps-fab.done{background:var(--green) !important}
-.steps-overlay{background:rgba(5,5,12,.8);backdrop-filter:none}
-.steps-modal{border-radius:0;border-bottom:none;box-shadow:0 -4px 0 var(--accent)}
-.steps-modal h3{font-size:12px;color:var(--accent2);line-height:1.5}
-.steps-modal h3 button{font-family:var(--font-serif);font-size:14px;color:var(--red)}
-.steps-sub,.steps-bar-txt,.steps-end-hint,.steps-hist-empty{font-size:17px;color:var(--text2)}
-.steps-day-label{font-size:19px;color:var(--text)}
-.steps-hist-row{background:var(--bg3);border:2px solid #000;font-size:19px}
-.steps-hist-row .n{color:var(--accent2)}
 .ana-sec-title{font-family:var(--font-serif);font-size:9px;letter-spacing:0;color:var(--accent)}
 .ana-sec-title::after{height:3px;background:repeating-linear-gradient(90deg,var(--border) 0 6px,transparent 6px 10px)}
 
@@ -360,8 +316,6 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:in
 }
 
 .tplan-date-cell input{font-size:15px !important;padding:3px 2px !important}
-.steps-day-label{width:96px !important}
-.steps-overlay,.steps-modal{transition:none !important;animation:none !important}
 [style*="rgba(255,255,255,.5)"],[style*="rgba(255,255,255,.4)"],[style*="rgba(255,255,255,.35)"]{color:var(--text2) !important}
 .card [style*="white-space:nowrap"]{white-space:normal !important}
 /* Fixierte Wochen-Tabs: bündig an der Oberkante, nichts scheint darüber durch */
@@ -491,34 +445,6 @@ input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:in
   </div>
 </div>
 
-<button id="steps-fab" class="steps-fab" onclick="stepsOpen()" style="display:none">
-  <span class="ico">👟</span><span id="steps-fab-text">Schritte?</span>
-</button>
-
-<div id="steps-overlay" class="steps-overlay" onclick="if(event.target===this)stepsClose()">
-  <div class="steps-modal">
-    <h3>10.000 Schritte/Tag <button onclick="stepsClose()">×</button></h3>
-    <div class="steps-sub">Kurze Challenge für ein paar Wochen – Schritte von heute oder gestern eintragen.</div>
-
-    <div class="steps-day-row">
-      <span class="steps-day-label" id="steps-lbl-today">Heute</span>
-      <input type="number" inputmode="numeric" id="steps-input-today" placeholder="Schritte" onblur="stepsSave(0,this.value)" onkeydown="if(event.key==='Enter')this.blur()">
-    </div>
-    <div class="steps-bar-wrap">
-      <div class="steps-bar-bg"><div class="steps-bar-fill" id="steps-bar-fill"></div></div>
-      <div class="steps-bar-txt" id="steps-bar-txt"></div>
-    </div>
-    <div class="steps-day-row">
-      <span class="steps-day-label" id="steps-lbl-yesterday">Gestern</span>
-      <input type="number" inputmode="numeric" id="steps-input-yesterday" placeholder="Schritte" onblur="stepsSave(-1,this.value)" onkeydown="if(event.key==='Enter')this.blur()">
-    </div>
-
-    <div class="ana-sec-title" style="margin-top:18px">Verlauf</div>
-    <div class="steps-hist" id="steps-hist"></div>
-    <div class="steps-end-hint" id="steps-end-hint"></div>
-  </div>
-</div>
-
 <script>
 /* ══ STORAGE (identisch zu Mein Hub – gleiche Tabelle, gleiche Schlüssel) ══ */
 const SUPA_URL='https://eotwdngzvgwbsdlriyin.supabase.co';
@@ -530,7 +456,6 @@ const DATA_VERSION='2.1';
 /* Nur Trainings-Schlüssel werden von dieser App gelesen/geschrieben */
 function isTrainKey(k){
   return k==='trainBlocks_v5'||k==='trainLogs'||k==='workoutTimes'||
-         k==='stepsLog'||k==='stepsDismiss'||
          k.indexOf('pm2_start_')===0||k.indexOf('pm2_day_')===0;
 }
 
@@ -1250,112 +1175,6 @@ function renderHeaderStats(){
   el.innerHTML=html;
 }
 
-/* ══ Schritte-Challenge (temporär, endet automatisch) ══ */
-const STEPS_GOAL=10000;
-const STEPS_END='2026-10-31'; // Danach verschwindet die Funktion von selbst
-let stepsLog={};
-
-function stepsActive(){
-  return isoDay(new Date())<=STEPS_END;
-}
-function stepsIsoOffset(offsetDays){
-  const d=new Date();d.setDate(d.getDate()+offsetDays);
-  return isoDay(d);
-}
-function stepsFmtDate(iso){
-  const d=new Date(iso+'T00:00:00');
-  if(isNaN(d.getTime()))return iso;
-  return WDAYS_FULL[d.getDay()].slice(0,2)+', '+d.getDate()+'. '+MONTHS_SHORT[d.getMonth()];
-}
-function stepsSave(offsetDays,val){
-  const iso=stepsIsoOffset(offsetDays);
-  const n=parseInt(String(val).replace(/\D/g,''),10);
-  if(!n||n<=0){delete stepsLog[iso];}
-  else{stepsLog[iso]=Math.min(n,99999);}
-  save('stepsLog',stepsLog);
-  showSaveHint();
-  stepsRenderFab();
-  stepsRenderModal();
-}
-function stepsEditDay(iso){
-  const cur=stepsLog[iso]||'';
-  const val=prompt('Schritte am '+stepsFmtDate(iso)+' (leer lassen zum Löschen):',String(cur));
-  if(val===null)return; // Abgebrochen, nichts ändern
-  const n=parseInt(String(val).replace(/\D/g,''),10);
-  if(!n||n<=0){delete stepsLog[iso];}
-  else{stepsLog[iso]=Math.min(n,99999);}
-  save('stepsLog',stepsLog);
-  showSaveHint();
-  stepsRenderFab();
-  stepsRenderModal();
-}
-function stepsRenderFab(){
-  const fab=document.getElementById('steps-fab');
-  if(!fab)return;
-  if(!stepsActive()){fab.style.display='none';return;}
-  fab.style.display='flex';
-  const todayIso=stepsIsoOffset(0);
-  const v=stepsLog[todayIso];
-  const txt=document.getElementById('steps-fab-text');
-  if(v){
-    txt.textContent=v.toLocaleString('de-DE')+(v>=STEPS_GOAL?' ✓':'');
-    fab.classList.toggle('done',v>=STEPS_GOAL);
-  }else{
-    txt.textContent='Schritte?';
-    fab.classList.remove('done');
-  }
-}
-function stepsRenderModal(){
-  const todayIso=stepsIsoOffset(0),yIso=stepsIsoOffset(-1);
-  document.getElementById('steps-lbl-today').textContent='Heute';
-  document.getElementById('steps-lbl-yesterday').textContent='Gestern';
-  const ti=document.getElementById('steps-input-today');
-  const yi=document.getElementById('steps-input-yesterday');
-  if(document.activeElement!==ti)ti.value=stepsLog[todayIso]||'';
-  if(document.activeElement!==yi)yi.value=stepsLog[yIso]||'';
-
-  const tv=stepsLog[todayIso]||0;
-  const pct=Math.min(100,Math.round(tv/STEPS_GOAL*100));
-  const fill=document.getElementById('steps-bar-fill');
-  fill.style.width=pct+'%';
-  fill.classList.toggle('full',tv>=STEPS_GOAL);
-  document.getElementById('steps-bar-txt').textContent=
-    tv.toLocaleString('de-DE')+' / '+STEPS_GOAL.toLocaleString('de-DE')+' Schritte heute'+(tv>=STEPS_GOAL?' – Ziel erreicht 🎉':'');
-
-  const hist=document.getElementById('steps-hist');
-  const days=Object.keys(stepsLog).sort().reverse().slice(0,14);
-  if(!days.length){
-    hist.innerHTML='<div class="steps-hist-empty">Noch keine Einträge – leg direkt oben los.</div>';
-  }else{
-    hist.innerHTML=days.map(iso=>{
-      const n=stepsLog[iso];
-      const hit=n>=STEPS_GOAL;
-      return '<div class="steps-hist-row'+(hit?' hit':'')+'" onclick="stepsEditDay(\''+iso+'\')" title="Klicken zum Anpassen"><span class="d">'+stepsFmtDate(iso)+'</span><span class="n">'+n.toLocaleString('de-DE')+(hit?' ✓':'')+'</span></div>';
-    }).join('');
-  }
-  const endHint=document.getElementById('steps-end-hint');
-  if(endHint)endHint.textContent='Challenge läuft bis '+stepsFmtDate(STEPS_END).replace(/^\w+,\s*/,'');
-}
-function stepsOpen(){
-  stepsRenderModal();
-  document.getElementById('steps-overlay').classList.add('show');
-}
-function stepsClose(){
-  document.getElementById('steps-overlay').classList.remove('show');
-  const todayIso=stepsIsoOffset(0);
-  if(!stepsLog[todayIso]){
-    save('stepsDismiss',todayIso);
-  }
-}
-function stepsMaybeAutoPrompt(){
-  if(!stepsActive())return;
-  const todayIso=stepsIsoOffset(0);
-  if(stepsLog[todayIso])return; // heute schon erfasst
-  const dismissed=load('stepsDismiss','');
-  if(dismissed===todayIso)return; // heute schon weggeklickt
-  setTimeout(()=>{ stepsOpen(); },1600);
-}
-
 function initApp(){
   const loadedBlocks=load('trainBlocks_v5',null);
   trainBlocks=(loadedBlocks&&loadedBlocks.length===4)?loadedBlocks:deepCopy(DEFAULT_BLOCKS);
@@ -1397,7 +1216,6 @@ function initApp(){
   if(migrated)save('trainBlocks_v5',trainBlocks);
   trainLogs=load('trainLogs',{});
   workoutTimes=load('workoutTimes',{});
-  stepsLog=load('stepsLog',{});
   /* Beim Start automatisch den laufenden Block und die aktuelle Woche wählen */
   for(let b=0;b<4;b++){
     const sd=load('pm2_start_'+b,'')||'';
@@ -1416,8 +1234,6 @@ function initApp(){
   if(inp)inp.value=load('pm2_start_'+currentBlock,'')||'';
   renderHeaderDate();
   renderTrainPlan();
-  stepsRenderFab();
-  stepsMaybeAutoPrompt();
   /* Sanft zum heutigen Trainingstag scrollen */
   const tp=todayPos();
   if(tp){
@@ -1483,7 +1299,7 @@ try {
   R(150,36,12,2,'#12131f');R(148,34,3,6,'#2a2a3a');R(161,34,3,6,'#2a2a3a');R(148,34,3,1,'#6b6b88');R(161,34,3,1,'#6b6b88');
   el.innerHTML=s;
   // Sprechblase
-  var SAETZE=['Heute schon geswingt?','Rep für Rep.','Konstanz schlägt Motivation.','100 Snatches? Easy.','Trink genug Wasser!','Level up: nächste Woche +1.','10.000 Schritte, los!','Technik vor Gewicht.'];
+  var SAETZE=['Heute schon geswingt?','Rep für Rep.','Konstanz schlägt Motivation.','100 Snatches? Easy.','Trink genug Wasser!','Level up: nächste Woche +1.','Technik vor Gewicht.'];
   var bub=document.getElementById('px-bubble'),si=0,ci=0,txt=bub.querySelector('span');
   function tick(){
     var t=SAETZE[si];
