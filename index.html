@@ -163,12 +163,9 @@ input:focus,textarea:focus,select:focus,[contenteditable]:focus{border-color:var
 .col input[type=date]{width:100%;padding:3px 2px;font-size:15px;color:var(--text2)}
 .col-date-label{font:8px/1.7 var(--font-title);color:var(--accent2);text-align:center}
 
-.prev-btn,.btn-fill{display:block;width:100%;min-height:36px;padding:6px 8px;font-size:17px;line-height:1.05;color:var(--day);background:var(--bg3);border:2px solid var(--day)}
-.prev-btn{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.btn-fill{text-align:center;color:var(--bg);background:var(--day)}
+.prev-btn{display:block;width:100%;min-height:36px;padding:6px 8px;font-size:17px;line-height:1.05;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--day);background:var(--bg3);border:2px solid var(--day)}
 .prev-btn:hover{color:var(--bg);background:var(--day)}
-.btn-fill:hover{filter:brightness(1.12)}
-.prev-btn:active,.btn-fill:active{transform:translate(2px,2px)}
+.prev-btn:active{transform:translate(2px,2px)}
 .prev-ref{padding:0 2px;font-size:16px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .wt-bar{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;min-height:30px}
@@ -220,7 +217,7 @@ input:focus,textarea:focus,select:focus,[contenteditable]:focus{border-color:var
   .row-main{flex:1 1 calc(100% - 30px)}
   .log{font-size:21px;height:110px;min-height:110px}
   .day.is-light .log{height:50px;min-height:50px}
-  .prev-btn,.btn-fill{min-height:44px;font-size:19px}
+  .prev-btn{min-height:44px;font-size:19px}
   .btn-sm{min-height:44px;padding:10px 16px;font-size:9px}
   .wt-saved{min-height:44px;padding:8px 12px}
   .ex-name{font-size:23px}
@@ -559,7 +556,9 @@ function dayKind(focus){
    Sucht rückwärts ab der Vorwoche den nächsten befüllten Eintrag derselben Übung.
    Über Blockgrenzen hinweg wird die Übung am Namen erkannt (Varianten wechseln je Block). */
 function prevLog(b,di,ei,w){
-  const name=((trainBlocks[b]||[])[di]||{exercises:[]}).exercises[ei];
+  const day=(trainBlocks[b]||[])[di];
+  if(!day||dayKind(day.focus)==='rest')return null;   /* Ruhetag: keine Vorwochen-Funktion */
+  const name=day.exercises[ei];
   if(!name)return null;
   for(let aw=absWeek(w,b)-1;aw>=1;aw--){
     const pb=Math.floor((aw-1)/WEEKS), pw=((aw-1)%WEEKS)+1;
@@ -589,22 +588,11 @@ function updatePrevSlot(slot,key,val){
   el.textContent=(asBtn?'↺ ':'')+'Wo '+p.week+': '+p.value;
   el.title='Wo '+p.week+': '+p.value;
 }
-function updateFillButton(di,w){
-  const btn=document.querySelector('[data-fill][data-di="'+di+'"][data-w="'+w+'"]');
-  if(!btn)return;
-  let n=0;
-  trainBlocks[currentBlock][di].exercises.forEach((_,ei)=>{
-    if(!(trainLogs[logKey(currentBlock,di,ei,w)]||'').trim()&&prevLog(currentBlock,di,ei,w))n++;
-  });
-  btn.hidden=n===0;
-  btn.textContent='↺ Alles wie Vorwoche ('+n+')';
-}
 function refreshDay(di){
   const dayEl=$('tday-'+di);if(!dayEl)return;
   dayEl.querySelectorAll('textarea.log').forEach(ta=>{
     updatePrevSlot(ta.parentElement.querySelector('.prev-slot'),ta.dataset.key,ta.value);
   });
-  WEEK_LIST.forEach(w=>updateFillButton(di,w));
 }
 function setLogValue(key,val){
   trainLogs[key]=val;
@@ -622,17 +610,6 @@ function fillOne(key){
   if(!p)return;
   setLogValue(key,p.value);
   commitLogs();
-  refreshDay(di);
-}
-function fillDay(di,w){
-  let changed=false;
-  trainBlocks[currentBlock][di].exercises.forEach((_,ei)=>{
-    const key=logKey(currentBlock,di,ei,w);
-    if((trainLogs[key]||'').trim())return;
-    const p=prevLog(currentBlock,di,ei,w);
-    if(p){setLogValue(key,p.value);changed=true;}
-  });
-  if(changed)commitLogs();
   refreshDay(di);
 }
 function commitLogField(ta){
@@ -684,8 +661,7 @@ function dateRowHtml(di){
   const cells=WEEK_LIST.map(w=>{
     const iso=getDayISO(di,w), hint=weekdayHint(iso);
     return '<div class="col'+onClass(w)+'"><b class="col-date-label">Wo '+absWeek(w)+(hint?' · '+hint:'')+'</b>'
-      +'<input type="date" value="'+iso+'" data-date data-di="'+di+'" data-w="'+w+'">'
-      +'<button class="btn-fill" data-act="fill-day" data-fill data-di="'+di+'" data-w="'+w+'" hidden></button></div>';
+      +'<input type="date" value="'+iso+'" data-date data-di="'+di+'" data-w="'+w+'"></div>';
   }).join('');
   return '<div class="row row--meta"><span class="row-num">#</span><div class="row-main">Datum</div>'+cells+'</div>';
 }
@@ -1007,7 +983,6 @@ const ACTIONS={
   'del-ex':t=>deletePlanExercise(+t.dataset.di,+t.dataset.ei),
   'add-ex':t=>addPlanExercise(+t.dataset.di),
   'fill-one':t=>fillOne(t.dataset.key),
-  'fill-day':t=>fillDay(+t.dataset.di,+t.dataset.w),
   'wt-start':t=>wtStart(+t.dataset.di,+t.dataset.w),
   'wt-pause':wtPause,
   'wt-stop':()=>wtStop(),
