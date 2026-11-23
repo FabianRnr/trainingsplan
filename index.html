@@ -557,7 +557,7 @@ function weekdayHint(iso){
 /* Welcher Tag/welche Woche ist heute? Berücksichtigt manuell verschobene Termine. */
 function todayPos(){
   const today=isoDay(new Date());
-  for(const w of WEEK_LIST)for(let di=0;di<SUNDAY;di++){
+  for(const w of WEEK_LIST)for(let di=0;di<=SUNDAY;di++){
     if(getDayISO(di,w)===today)return{di,w};
   }
   const start=parseISO(load(startKey(currentBlock),''));
@@ -711,9 +711,17 @@ function dayHtml(day,di,tp){
 }
 /* Anzeigereihenfolge: nach Datum der gewählten Woche. Nur die Darstellung wird sortiert –
    Index (di) und alle gespeicherten Daten bleiben unverändert. Ohne Datum gilt die Planreihenfolge. */
+/* Sortier-Woche: Desktop = laufende Woche (heute), sonst Wo 1; Mobil = die gewählte Wochen-Tab-Woche. */
+const isMobileView=()=>window.matchMedia('(max-width:600px)').matches;
+function sortWeek(){
+  if(isMobileView())return mobileWeek;
+  const tp=todayPos();
+  return tp?tp.w:1;
+}
 function dayOrder(){
+  const sw=sortWeek();
   return trainBlocks[currentBlock]
-    .map((_,di)=>({di,iso:getDayISO(di,mobileWeek)}))
+    .map((_,di)=>({di,iso:getDayISO(di,sw)}))
     .sort((a,b)=>{
       if(a.iso&&b.iso&&a.iso!==b.iso)return a.iso<b.iso?-1:1;
       if(a.iso&&!b.iso)return -1;
@@ -722,7 +730,9 @@ function dayOrder(){
     })
     .map(o=>o.di);
 }
+let lastRenderDay='';
 function renderTrainPlan(){
+  lastRenderDay=isoDay(new Date());
   const tp=todayPos(), plan=trainBlocks[currentBlock];
   $('train-plan-list').innerHTML=dayOrder().map(di=>dayHtml(plan[di],di,tp)).join('');
   trainBlocks[currentBlock].forEach((_,di)=>refreshDay(di));
@@ -796,6 +806,8 @@ function clearStartDate(){
 }
 function switchBlock(i){
   currentBlock=i;
+  const tpb=todayPos();
+  mobileWeek=tpb?tpb.w:1;
   document.querySelectorAll('#block-tabs .tab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
   $('train-start-date').value=load(startKey(i),'')||'';
   openNotes.clear();
@@ -1054,6 +1066,14 @@ document.addEventListener('change',e=>{
   else if(t.id==='import-file')importBackup(t);
 });
 window.addEventListener('unhandledrejection',e=>e.preventDefault());
+/* Neu sortieren, wenn ein neuer Tag beginnt (App im Hintergrund) oder zwischen Handy-/Desktop-Ansicht gewechselt wird. */
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden||!lastRenderDay||lastRenderDay===isoDay(new Date()))return;
+  const a=document.activeElement;
+  if(a&&(a.isContentEditable||/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)))return;
+  renderHeaderDate();renderTrainPlan();
+});
+window.matchMedia('(max-width:600px)').addEventListener('change',()=>{if(lastRenderDay)renderTrainPlan();});
 
 /* ── 12 Init ── */
 /* Einmalige Migrationen für ältere Daten. Greifen nur bei unveränderten Standard-Einträgen. */
